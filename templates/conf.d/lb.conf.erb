@@ -1,0 +1,11 @@
+upstream <%= @backend %>
+{
+    #zone <%= @backend %> 128k;
+    <%= @lb_style %>;
+
+    <% @upstreams.each do |upstream| -%>
+    server <%= upstream %>:<%= @upstream_port %>  fail_timeout=<%= @upstream_fail_timeout %>;
+    <% end -%>
+    keepalive 32;
+    #sticky cookie wwwsitecore expires=2h domain=.osfashland.org path=/;
+}
