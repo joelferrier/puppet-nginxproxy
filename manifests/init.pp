@@ -76,7 +76,7 @@ class nginxproxy(
 
   exec { 'semodule-nginx':
     user        => 'root',
-    command     => '/sbin/semanage -i /root/nginxprox.pp',
+    command     => '/usr/sbin/semanage -i /root/nginxprox.pp',
     refreshonly => true,
     require     => File['selinux-module'],
   }
