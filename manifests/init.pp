@@ -65,6 +65,18 @@ class nginxproxy(
     notify  => Service['nginx'],
   }
 
+  file { 'selinux-module':
+    path => "/root/nginxproxy.pp",
+    owner => 'root',
+    group => 'root',
+  }
+
+  exec { 'semodule':
+    
+    
+    
+  }
+
   service { 'nginx':
     ensure     => running,
     enable     => true,
