@@ -66,21 +66,25 @@ class nginxproxy(
   }
 
   file { 'selinux-module':
-    path => "/root/nginxproxy.pp",
-    owner => 'root',
-    group => 'root',
+    path   => "/root/nginxproxy.pp",
+    owner  => 'root',
+    group  => 'root',
+    ensure => present,
+    source => "puppet:///modules/nginxproxy/nginxproxy.pp",
+    notify => Exec['semodule-nginx'],
   }
 
-  exec { 'semodule':
-    
-    
-    
+  exec { 'semodule-nginx':
+    user        => 'root',
+    commant     => '/sbin/semanage -i /root/nginxprox.pp',
+    refreshonly => true,
+    require     => File['selinux-module'],
   }
 
   service { 'nginx':
     ensure     => running,
     enable     => true,
-    require    => [Package["nginx"], File['nginx.conf'], File['lb.conf'], File['server.conf']],
+    require    => [Package["nginx"], File['nginx.conf'], File['lb.conf'], File['server.conf'], Exec['semodule-nginx']],
     hasrestart => true,
   }
 
