@@ -12,15 +12,15 @@ class nginxproxy(
   $rewrite_port          = "443",
   )  {
   include wildcardssl
-  #include iptables
+  include iptables
 
-  #iptables::rule_fragment { '10web':
-  #  source  => 'puppet:///modules/nginxproxy/web.rules',
-  #}
+  iptables::rule_fragment { '10web':
+    source  => 'puppet:///modules/nginxproxy/web.rules',
+  }
 
-  #iptables::rule_fragment { '20status':
-  #  source => 'puppet:///modules/nginxproxy/status.rules'
-  #}
+  iptables::rule_fragment { '20status':
+    source => 'puppet:///modules/nginxproxy/status.rules'
+  }
 
   package { 'nginx':  ensure => installed, }
 
