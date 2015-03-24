@@ -95,6 +95,7 @@ class nginxproxy(
     command     => '/usr/sbin/semanage -i /root/nginxreverse.pp',
     refreshonly => true,
     require     => File['selinux-module2'],
+  }
 
   service { 'nginx':
     ensure     => running,
