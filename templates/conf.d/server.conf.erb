@@ -26,11 +26,11 @@ server {
     }
 
 
-    #location /status {
-    #    status;
-    #    stub_status on;
-    #    access_log   off;
-    #}
+    location /status {
+        status;
+        stub_status on;
+        access_log   off;
+    }
 }
 
 server {
@@ -81,9 +81,9 @@ server {
         }
     }
 
-    #location /status {
-    #    status;
-    #    stub_status on;
-    #    access_log   off;
-    #}
+    location /status {
+        status;
+        stub_status on;
+        access_log   off;
+    }
 }
