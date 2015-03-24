@@ -74,6 +74,15 @@ class nginxproxy(
     notify => Exec['semodule-nginx'],
   }
 
+  file { 'selinux-module2':
+    path   => "/root/nginxreverse.pp",
+    owner  => 'root',
+    group  => 'root',
+    ensure => present,
+    source => "puppet:///modules/nginxproxy/nginxreverse.pp",
+    notify => Exec['semodule-nginx2'],
+  }
+
   exec { 'semodule-nginx':
     user        => 'root',
     command     => '/usr/sbin/semanage -i /root/nginxprox.pp',
@@ -81,10 +90,16 @@ class nginxproxy(
     require     => File['selinux-module'],
   }
 
+  exec { 'semodule-nginx2':
+    user        => 'root',
+    command     => '/usr/sbin/semanage -i /root/nginxreverse.pp',
+    refreshonly => true,
+    require     => File['selinux-module2'],
+
   service { 'nginx':
     ensure     => running,
     enable     => true,
-    require    => [Package["nginx"], File['nginx.conf'], File['lb.conf'], File['server.conf'], Exec['semodule-nginx']],
+    require    => [Package["nginx"], File['nginx.conf'], File['lb.conf'], File['server.conf'], Exec['semodule-nginx'], Exec['semodule-nginx2'] ],
     hasrestart => true,
   }
 
